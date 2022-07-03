@@ -1,0 +1,7 @@
+- id: '1656127511075'
+  alias: MQTT Statestream to MQTT Discovery 2021.03
+  description: ''
+  use_blueprint:
+    path: koying/mqttstream2discover.yaml
+    input:
+      ha_stream: homeassistant/pandemicabin/states

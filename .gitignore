@@ -1,0 +1,9 @@
+.*
+!/.gitignore
+*.db*
+*.log*
+secrets.yaml
+/*/
+!/packages
+
+*.code-workspace
