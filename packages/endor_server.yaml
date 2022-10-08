@@ -1,0 +1,8 @@
+binary_sensor:
+  - platform: ping
+  - platform: command_line
+    name: Photoprism Web Interface
+    command: response=$(curl -LIk -m 3 https://photos.mmjo.com/ -o /dev/null -w "%{http_code}\n" -s); test "$response" -eq 200 && echo "OFF" || echo "ON"
+    scan_interval: 60
+    value_template: '{{ value }}'
+    device_class: 'problem'

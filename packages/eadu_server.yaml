@@ -1,0 +1,26 @@
+input_select:
+  eadu_backup_docker:
+    name: Eadu Backup Docker
+    options:
+      - Pending
+      - Running
+      - Successful
+      - Error
+    icon: mdi:backup-restore
+  eadu_backup_db:
+    name: Eadu Backup Database
+    options:
+      - Pending
+      - Running
+      - Successful
+      - Error
+    icon: mdi:backup-restore
+  eadu_backup_nextcloud:
+    name: Eadu Backup Nextcloud
+    options:
+      - Pending
+      - Running
+      - Successful
+      - Error
+    icon: mdi:backup-restore
+
