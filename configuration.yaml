@@ -11,17 +11,10 @@ http:
 tts:
   - platform: google_translate
 
+homeassistant:
+  packages: !include_dir_named packages/
+
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 
-# mqtt_statestream:
-#   base_topic: homeassistant/master/states
-#   publish_attributes: true
-#   publish_timestamps: true
-
-mqtt_eventstream:
-  subscribe_topic: homeassistant/+/events
-
-mqtt:
-  discovery_prefix: homeassistant/pandemicabin/states
