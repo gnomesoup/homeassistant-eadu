@@ -1,10 +1,9 @@
 binary_sensor:
   - platform: ping
-    id: endor_server_ping
     name: Endor Server Ping
     host: 100.119.81.44
   - platform: command_line
-    id: photoprism_web_interface
+    unique_id: photoprism_web_interface
     name: Photoprism Web Interface
     command: response=$(curl -LIk -m 3 https://photos.mmjo.com/ -o /dev/null -w "%{http_code}\n" -s); test "$response" -eq 200 && echo "OFF" || echo "ON"
     scan_interval: 60
