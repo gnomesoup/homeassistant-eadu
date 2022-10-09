@@ -1,5 +1,6 @@
 binary_sensor:
   - platform: ping
+    unique_id: endor_server_ping
     name: Endor Server Ping
     host: 100.119.81.44
   - platform: command_line
