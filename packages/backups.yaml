@@ -1,0 +1,22 @@
+automation:
+  - alias: Reset Backups
+    id: eef2fa01-e169-4844-8c1a-cbb6b263545c
+    trigger:
+      - platform: time
+        at: "00:00:00"
+    condition: []
+    action:
+      - alias: Get list of backups to reset
+        variables:
+          entities: >-
+            {{ expand(states.input_select)
+              | selectattr("entity_id", "match", "input_select.backup_.*")
+              | selectattr("state", "==", "Successful")
+              | map(attribute='entity_id')
+              | list }}
+      - alias: Set value to pending
+        service: input_select.select_option
+        target:
+          entity_id: "{{ entities }}"
+        data:
+          option: Pending
