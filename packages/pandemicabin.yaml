@@ -2,6 +2,7 @@ input_text:
   token_panedemicabin:
     name: Pandemicabin Token
     mode: password
+    max: 255
 
 binary_sensor:
   - platform: rest
