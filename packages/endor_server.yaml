@@ -21,7 +21,7 @@ binary_sensor:
     device_class: connectivity
     resource: https://taliluna.mmjo.com/api/
     headers:
-      Authoriation: "Bearer {{ states('input_text.homeassistant_token_taliluna') }}"
+      Authorization: "Bearer {{ states('input_text.homeassistant_token_taliluna') }}"
       Content-Type: application/json
     value_template: >-
       {{ "API running." in value }}
@@ -32,7 +32,7 @@ sensor:
     name: Taliluna API Status
     resource: https://taliluna.mmjo.com/api/
     headers:
-      Authoriation: "Bearer {{ states('input_text.homeassistant_token_taliluna') }}"
+      Authorization: "Bearer {{ states('input_text.homeassistant_token_taliluna') }}"
       Content-Type: application/json
     value_template: >-
       {{ value }}
