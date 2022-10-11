@@ -8,10 +8,18 @@ binary_sensor:
   - platform: ping
     name: Endor Server Ping
     host: 100.119.81.44
+    scan_interval: 60
   - platform: command_line
     unique_id: photoprism_web_interface
     name: Photoprism Web Interface
     command: response=$(curl -LIk -m 3 https://photos.mmjo.com/ -o /dev/null -w "%{http_code}\n" -s); test "$response" -eq 200 && echo "OFF" || echo "ON"
+    scan_interval: 60
+    value_template: '{{ value }}'
+    device_class: 'problem'
+  - platform: command_line
+    unique_id: zwavejs_interface_taliluna
+    name:  Taliluna ZwaveJS Interface
+    command: response=$(curl -LIk -m 3 http://100.119.81.44:8091/ -o /dev/null -w "%{http_code}\n" -s); test "$response" -eq 200 && echo "OFF" || echo "ON"
     scan_interval: 60
     value_template: '{{ value }}'
     device_class: 'problem'
@@ -25,14 +33,3 @@ binary_sensor:
       Content-Type: application/json
     value_template: >-
       {{ "API running." in value }}
-
-sensor:
-  - platform: rest
-    unique_id: rest_homeassistant_taliluna
-    name: Taliluna API Status
-    resource: https://taliluna.mmjo.com/api/
-    headers:
-      Authorization: "Bearer {{ states('input_text.homeassistant_token_taliluna') }}"
-      Content-Type: application/json
-    value_template: >-
-      {{ value }}
