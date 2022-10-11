@@ -14,4 +14,4 @@ binary_sensor:
       Authoriation: "Bearer {{ states('input_text.homeassistant_token_pandemicabin') }}"
       Content-Type: application/json
     value_template: >-
-      {{ value_json.message == "API running." }}
+      {{ "API running." in VALUE }}
