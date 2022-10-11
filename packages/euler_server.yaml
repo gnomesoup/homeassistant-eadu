@@ -2,17 +2,17 @@ binary_sensor:
   - platform: command_line
     unique_id: openmediavault_interface
     name: OpenMediaVault Interface
-    command: response=$(curl -LIk -m 3 http://100.77.188.22/#/login -o /dev/null -w "%{http_code}\n" -s); test "$response" -eq 200 && echo "OFF" || echo "ON"
+    command: response=$(curl -LIk -m 3 http://100.77.188.22/#/login -o /dev/null -w "%{http_code}\n" -s); test "$response" -eq 200 && echo "ON" || echo "OFF"
     scan_interval: 60
     value_template: '{{ value }}'
-    device_class: 'problem'
+    device_class: connectivity
   - platform: command_line
     unique_id: minio_interface
     name: Minio Interface
-    command: response=$(curl -LIk -m 3 http://100.77.188.22:9001/login -o /dev/null -w "%{http_code}\n" -s); test "$response" -eq 200 && echo "OFF" || echo "ON"
+    command: response=$(curl -LIk -m 3 http://100.77.188.22:9001/login -o /dev/null -w "%{http_code}\n" -s); test "$response" -eq 200 && echo "ON" || echo "OFF"
     scan_interval: 60
     value_template: '{{ value }}'
-    device_class: 'problem'
+    device_class: connectivity
   - platform: ping
     name: Euler Server Ping
     host: 100.77.188.22

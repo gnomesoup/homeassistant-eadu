@@ -18,7 +18,7 @@ binary_sensor:
   - platform: command_line
     unique_id: zwavejs_interface_pandemicabin
     name:  Pandemicabin ZwaveJS Interface
-    command: response=$(curl -LIk -m 3 http://100.72.82.89:8091/ -o /dev/null -w "%{http_code}\n" -s); test "$response" -eq 200 && echo "OFF" || echo "ON"
+    command: response=$(curl -LIk -m 3 http://100.72.82.89:8091/ -o /dev/null -w "%{http_code}\n" -s); test "$response" -eq 200 && echo "ON" || echo "OFF"
     scan_interval: 60
     value_template: '{{ value }}'
-    device_class: 'problem'
+    device_class: connectivity
