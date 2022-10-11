@@ -24,4 +24,4 @@ binary_sensor:
       Authoriation: "Bearer {{ states('input_text.homeassistant_token_taliluna') }}"
       Content-Type: application/json
     value_template: >-
-      {{ "API running." in VALUE }}
+      {{ "API running." in value }}
