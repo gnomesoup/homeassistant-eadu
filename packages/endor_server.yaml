@@ -25,3 +25,15 @@ binary_sensor:
       Content-Type: application/json
     value_template: >-
       {{ "API running." in value }}
+
+sensor:
+  - platform: rest
+    unique_id: rest_homeassistant_taliluna
+    name: Taliluna API Status
+    device_class: connectivity
+    resource: https://taliluna.mmjo.com/api/
+    headers:
+      Authoriation: "Bearer {{ states('input_text.homeassistant_token_taliluna') }}"
+      Content-Type: application/json
+    value_template: >-
+      {{ value_json.message }}
