@@ -1,3 +1,9 @@
+input_text:
+  homeassistant_token_taliluna:
+    name: Taliluna HA Token
+    mode: password
+    max: 255
+
 binary_sensor:
   - platform: ping
     name: Endor Server Ping
@@ -9,3 +15,13 @@ binary_sensor:
     scan_interval: 60
     value_template: '{{ value }}'
     device_class: 'problem'
+  - platform: rest
+    unique_id: rest_homeassistant_taliluna
+    name: Taliluna API Status
+    device_class: connectivity
+    resource: https://taliluna.mmjo.com/api/
+    headers:
+      Authoriation: "Bearer {{ states('input_text.homeassistant_token_taliluna') }}"
+      Content-Type: application/json
+    value_template: >-
+      {{ value_json.message == "API running." }}
