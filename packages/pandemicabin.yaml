@@ -1,5 +1,5 @@
 input_text:
-  token_panedemicabin:
+  token_pandemicabin:
     name: Pandemicabin Token
     mode: password
     max: 255
@@ -11,7 +11,7 @@ binary_sensor:
     device_class: connectivity
     resource: https://pandemicabin.mmjo.com/api/
     headers:
-      Authoriation: "Bearer {{ input_text.token_pandemicabin }}"
+      Authoriation: "Bearer {{ states('input_text.token_pandemicabin') }}"
       content_type: application/json
     value_template: >-
       {{ value_json.message == "API running." }}
