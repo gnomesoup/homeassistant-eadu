@@ -12,6 +12,6 @@ binary_sensor:
     resource: https://pandemicabin.mmjo.com/api/
     headers:
       Authoriation: "Bearer {{ states('input_text.token_pandemicabin') }}"
-      content_type: application/json
+      Content_Type: application/json
     value_template: >-
       {{ value_json.message == "API running." }}
