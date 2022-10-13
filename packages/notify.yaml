@@ -1,0 +1,106 @@
+input_select:
+  notify_level_michael:
+    name: Notify Level Michael
+    options:
+      - Debug
+      - Info
+      - Warn
+      - None
+    icon: mdi:bell-ring
+
+script:
+  notify_michael:
+    alias: "Notifications for Michael"
+    fields:
+      title:
+        description: Notification Title
+        example: Taliluna Alert
+      message:
+        description: Notification Message Body
+        example: Motion on front camera
+      alert_level: 
+        description: 'Level of alertness'
+        example: '[Debug|Info|Warn]'
+        default: Warn
+    variables:
+      set_alert_level: '{{ states("input_select.notify_level_michael")}}'
+      alert_group: >-
+        {% if alert_level == 'Debug' %}
+          {{ ('Debug') }}
+        {% elif alert_level == 'Info' %}
+          {{ ('Debug', 'Info') }}
+        {% else %}
+          {{ ('Debug', 'Info', 'Warn') }}
+        {% endif %}
+    sequence:
+      - alias: "Check if we should send notification"
+        choose:
+        - conditions: '{{ set_alert_level in alert_group }}'
+          sequence:
+            - alias: "Send the notification to mobile"
+              service: notify.mobile_app_kashyyyk
+              data:
+                title:  "{{ title }}"
+                message: "{{ message }}"
+            - alias: "Send the notification to computer"
+              service: notify.mobile_app_coruscant
+              data:
+                title: "{{ title }}"
+                message: "{{ message }}"
+
+automation:
+  - alias: Backup Issue Notification
+    id: 9c4dfad6-49ec-4fb8-a88c-4de1cb70af36
+    trigger:
+      - platform: time
+        at: "18:30:00"
+    condition:
+      - alias: "condition alias (name)"
+        condition: template
+        value_template: >-
+          {{ (expand(states.input_select) 
+             | selectattr("entity_id", "match", "input_select.backup_.*")
+             | rejectattr("state", "==", "Successful")
+             | list | length) > 0
+          }}
+    action:
+      - variables:
+          error_count: >-
+            {{ expand(states.input_select) 
+              | selectattr("entity_id", "match", "input_select.backup_.*")
+              | rejectattr("state", "==", "Successful")
+              | list | length
+            }}
+      - alias: "Notify Michael"
+        service: script.notify_michael
+        data:
+          alert_level: Warn
+          title: Backup Alert
+          message: >-
+            Errors in {{ error_count }} backup{{"" if error_count == 1 else "s"}}
+
+  - alias: Connection Issue Notification
+    id: f4967c28-5a83-4fbb-bc2f-7fc0bbdc5ba1
+    trigger:
+      - platform: template
+        value_template: >-
+          {{ expand(states.binary_sensor)
+             | selectattr("attributes.device_class", "==", "connectivity")
+             | selectattr("state", "==", "off")
+             | list
+             | length }}
+    condition: []
+    action:
+      - variables:
+          names: >-
+            {{ expand(states.binary_sensor)
+              | selectattr("attributes.device_class", "==", "connectivity")
+              | selectattr("state", "==", "off")
+              | map(attribute="attributes.friendly_name")
+              | list }}
+      - alias: "Alert Michael"
+        service: script.notify_michael
+        data:
+          alert_level: Warn
+          title: Connection Alert
+          message: "{{ names | join(', ') }} {{'is' if (names | length) == 1 else 'are'}} offline"
