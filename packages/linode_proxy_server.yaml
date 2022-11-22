@@ -1,0 +1,19 @@
+input_select:
+  backup_linode_proxy_docker:
+    name: Linode Proxy Backup Docker
+    options:
+      - Pending
+      - Running
+      - Successful
+      - Error
+    icon: mdi:backup-restore
+
+binary_sensor:
+  - platform: ping
+    name: Linode Proxy Server Ping
+    host: 100.110.56.75
+    scan_interval: 60
+  - platform: command_line
+    unique_id: linode_proxy_mongo_db
+    name: Linode Proxy Mongo DB
+    command: response=$(curl -LIk -m 3 http://100.110.56.75:27017/ -o /dev/null -w "%{http_code}\n" -s); test "$response" -eq "It looks like you are trying to access MongoDB over HTTP on the native driver port." && echo "ON" || echo "OFF"

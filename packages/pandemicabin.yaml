@@ -5,16 +5,16 @@ input_text:
     max: 255
 
 binary_sensor:
-  - platform: rest
-    unique_id: rest_homeassistant_pandemicabin
-    name: Pandemicabin API Status
-    device_class: connectivity
-    resource: https://pandemicabin.mmjo.com/api/
-    headers:
-      Authorization: "Bearer {{ states('input_text.homeassistant_token_pandemicabin') }}"
-      Content-Type: application/json
-    value_template: >-
-      {{ "API running." in value }}
+  # - platform: rest
+  #   unique_id: rest_homeassistant_pandemicabin
+  #   name: Pandemicabin API Status
+  #   device_class: connectivity
+  #   resource: https://pandemicabin.mmjo.com/api/
+  #   headers:
+  #     Authorization: "Bearer {{ states('input_text.homeassistant_token_pandemicabin') }}"
+  #     Content-Type: application/json
+  #   value_template: >-
+  #     {{ "API running." in value }}
   - platform: command_line
     unique_id: zwavejs_interface_pandemicabin
     name:  Pandemicabin ZwaveJS Interface
